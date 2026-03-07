@@ -1,0 +1,133 @@
+/* Background Gradient Animation */
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    color: white;
+    background: linear-gradient(-45deg, #0f2027, #203a43, #2c5364);
+    background-size: 400% 400%;
+    animation: gradientBG 10s ease infinite;
+    text-align: center;
+}
+
+@keyframes gradientBG {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+}
+
+/* Header */
+header {
+    padding: 30px;
+}
+
+.logo {
+    font-size: 40px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.tagline {
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+nav a {
+    color: white;
+    margin: 0 15px;
+    text-decoration: none;
+    font-weight: bold;
+    position: relative;
+}
+
+nav a::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    background: cyan;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Hero */
+.hero {
+    padding: 60px 20px;
+}
+
+.hero button {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 30px;
+    background: cyan;
+    color: black;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.hero button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px cyan;
+}
+
+/* 3D Card Style */
+.card, .project {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    border-radius: 20px;
+    padding: 30px;
+    margin: 30px auto;
+    width: 300px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+    transition: 0.5s;
+    transform-style: preserve-3d;
+}
+
+.card:hover {
+    transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+}
+
+/* Card Container */
+.card-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+/* Contact Form */
+form input, form textarea {
+    width: 80%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}
+
+form button {
+    padding: 12px 30px;
+    border-radius: 30px;
+    border: none;
+    background: cyan;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+form button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 15px cyan;
+}
+
+/* Footer */
+footer {
+    padding: 20px;
+    opacity: 0.7;
+}

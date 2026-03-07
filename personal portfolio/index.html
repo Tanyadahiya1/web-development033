@@ -1,0 +1,89 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Taniya| 3D Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="background"></div>
+
+    <!-- Header -->
+    <header>
+        <h1 class="logo">Taniya</h1>
+        <p class="tagline">btech student/p>
+
+        <nav>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <h2>Welcome to My Portfolio</h2>
+        <button onclick="showMessage()">Explore More</button>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="card">
+        <h2>About Me</h2>
+        <p>
+            I am a passionate btech student specializing in core concepts.
+            I love building interactive web applications and exploring technology.
+        </p>
+    </section>
+
+    <!-- Skills -->
+    <section id="skills">
+        <h2>My Skills</h2>
+        <div class="card-container">
+            <div class="card">HTML</div>
+            <div class="card">CSS</div>
+            <div class="card">JavaScript</div>
+            <div class="card">Digital Marketing</div>
+        </div>
+    </section>
+
+    <!-- Projects -->
+    <section id="projects">
+        <h2>My Projects</h2>
+        <div class="card-container">
+            <div class="card project">
+                <h3>Portfolio Website</h3>
+                <p>3D responsive portfolio with animations.</p>
+            </div>
+
+            <div class="card project">
+                <h3>Report Card System</h3>
+                <p>Python-based grading and percentage calculator.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="card">
+        <h2>Contact Me</h2>
+
+        <form id="contactForm">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Your Email" required>
+            <textarea placeholder="Your Message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <p id="formMessage"></p>
+    </section>
+
+    <footer>
+        © 2026 Taniya | All Rights Reserved
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
