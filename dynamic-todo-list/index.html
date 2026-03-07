@@ -1,0 +1,36 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic To-Do List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Dynamic To-Do List</h1>
+
+        <p class="description">
+            This application allows users to manage their daily tasks.
+            You can add tasks, edit them, delete them, and mark them as completed.
+        </p>
+
+        <!-- Input Section -->
+        <div class="task-input">
+            <input type="text" id="taskInput" placeholder="Enter a new task">
+            <button onclick="addTask()">Add Task</button>
+        </div>
+
+        <!-- Task List -->
+        <ul id="taskList"></ul>
+
+        <!-- Task Counter -->
+        <p id="taskCounter">Completed: 0 | Pending: 0</p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
