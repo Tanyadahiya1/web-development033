@@ -1,0 +1,134 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* BODY */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    text-align: center;
+    background-color: #f4f6f9;
+}
+
+/* HERO SECTION */
+.hero {
+    background: linear-gradient(to right, #1e3c72, #2a5298);
+    color: white;
+    padding: 100px 20px;
+}
+
+.hero-content h1 {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.hero-content p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.btn {
+    background-color: white;
+    color: #2a5298;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 25px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.btn:hover {
+    background-color: #dddddd;
+}
+
+/* SECTIONS */
+section {
+    padding: 60px 20px;
+}
+
+/* SERVICES */
+.services-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.service-card {
+    background: white;
+    padding: 25px;
+    width: 280px;
+    border-radius: 10px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+    transform: translateY(-10px);
+}
+
+.service-card h3 {
+    color: #2a5298;
+    margin-bottom: 10px;
+}
+
+/* TESTIMONIALS */
+#testimonials {
+    background-color: #e8ecf5;
+}
+
+.testimonial-card {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-left: 6px solid #2a5298;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+/* CONTACT */
+#contact {
+    background-color: #ffffff;
+}
+
+.contact-info {
+    margin-bottom: 20px;
+}
+
+form input,
+form textarea {
+    width: 260px;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+form textarea {
+    height: 80px;
+}
+
+form button {
+    padding: 10px 20px;
+    background-color: #2a5298;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #1e3c72;
+}
+
+/* FOOTER */
+footer {
+    background-color: #2a5298;
+    color: white;
+    padding: 15px;
+    margin-top: 30px;
+}
