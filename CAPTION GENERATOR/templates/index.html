@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CaptionCraft AI ✨</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"/>
+</head>
+<body>
+  <div class="bg-blobs">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+
+  <header>
+    <div class="logo">✨ CaptionCraft <span>AI</span></div>
+    <p class="tagline">Stop staring at a blank caption box. Let AI do the magic.</p>
+  </header>
+
+  <main>
+    <section class="form-card">
+      <div class="form-group">
+        <label>📸 What's your post about?</label>
+        <textarea id="topic" placeholder="e.g. sunset beach vibes, gym gains, new coffee obsession, Monday motivation..."></textarea>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>📱 Platform</label>
+          <div class="chip-group" id="platform-chips">
+            <button class="chip active" data-val="instagram">Instagram</button>
+            <button class="chip" data-val="twitter">Twitter/X</button>
+            <button class="chip" data-val="linkedin">LinkedIn</button>
+            <button class="chip" data-val="youtube">YouTube</button>
+            <button class="chip" data-val="tiktok">TikTok</button>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>🎭 Tone</label>
+          <div class="chip-group" id="tone-chips">
+            <button class="chip active" data-val="funny">😂 Funny</button>
+            <button class="chip" data-val="inspirational">🔥 Inspirational</button>
+            <button class="chip" data-val="aesthetic">🌸 Aesthetic</button>
+            <button class="chip" data-val="professional">💼 Professional</button>
+            <button class="chip" data-val="savage">😈 Savage</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>🎯 Your Niche</label>
+          <select id="niche">
+            <option value="lifestyle">Lifestyle</option>
+            <option value="fitness">Fitness & Gym</option>
+            <option value="food">Food & Recipes</option>
+            <option value="travel">Travel</option>
+            <option value="fashion">Fashion & OOTD</option>
+            <option value="tech">Tech & Gaming</option>
+            <option value="beauty">Beauty & Skincare</option>
+            <option value="business">Business & Finance</option>
+            <option value="art">Art & Creativity</option>
+            <option value="motivation">Motivation & Self-help</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>🔢 Number of Captions</label>
+          <div class="count-selector">
+            <button class="count-btn active" data-val="1">1</button>
+            <button class="count-btn" data-val="2">2</button>
+            <button class="count-btn active" data-val="3">3</button>
+            <button class="count-btn" data-val="5">5</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="generate-btn" id="generateBtn" onclick="generateCaptions()">
+        <span class="btn-text">✨ Generate Captions</span>
+        <span class="btn-loader hidden">Crafting magic...</span>
+      </button>
+    </section>
+
+    <section id="results" class="results hidden">
+      <div class="results-header">
+        <h2>Your Captions 🎉</h2>
+        <button class="regen-btn" onclick="generateCaptions()">🔄 Regenerate</button>
+      </div>
+      <div id="captions-container"></div>
+    </section>
+  </main>
+
+  <footer>
+    <p>Made with 💜 for creators & influencers · Powered by Claude AI</p>
+  </footer>
+
+  <script>
+    let selectedPlatform = "instagram";
+    let selectedTone = "funny";
+    let selectedCount = 3;
+
+    document.querySelectorAll("#platform-chips .chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#platform-chips .chip").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedPlatform = btn.dataset.val;
+      });
+    });
+
+    document.querySelectorAll("#tone-chips .chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll("#tone-chips .chip").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedTone = btn.dataset.val;
+      });
+    });
+
+    document.querySelectorAll(".count-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".count-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedCount = parseInt(btn.dataset.val);
+      });
+    });
+
+    async function generateCaptions() {
+      const topic = document.getElementById("topic").value.trim();
+      if (!topic) {
+        document.getElementById("topic").classList.add("shake");
+        setTimeout(() => document.getElementById("topic").classList.remove("shake"), 500);
+        return;
+      }
+
+      const btn = document.getElementById("generateBtn");
+      btn.querySelector(".btn-text").classList.add("hidden");
+      btn.querySelector(".btn-loader").classList.remove("hidden");
+      btn.disabled = true;
+
+      try {
+        const res = await fetch("/generate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            topic,
+            platform: selectedPlatform,
+            tone: selectedTone,
+            niche: document.getElementById("niche").value,
+            count: selectedCount
+          })
+        });
+
+        const data = await res.json();
+        displayCaptions(data.captions);
+      } catch (err) {
+        alert("Oops! Something went wrong. Try again.");
+      } finally {
+        btn.querySelector(".btn-text").classList.remove("hidden");
+        btn.querySelector(".btn-loader").classList.add("hidden");
+        btn.disabled = false;
+      }
+    }
+
+    function displayCaptions(captions) {
+      const container = document.getElementById("captions-container");
+      container.innerHTML = "";
+
+      captions.forEach((caption, i) => {
+        const card = document.createElement("div");
+        card.className = "caption-card";
+        card.innerHTML = `
+          <div class="caption-num">Caption ${i + 1}</div>
+          <p class="caption-text">${caption.replace(/\n/g, "<br>")}</p>
+          <div class="caption-actions">
+            <button class="copy-btn" onclick="copyCaption(this, \`${caption.replace(/`/g, "\\`")}\`)">📋 Copy</button>
+            <span class="char-count">${caption.length} chars</span>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      document.getElementById("results").classList.remove("hidden");
+      document.getElementById("results").scrollIntoView({ behavior: "smooth" });
+    }
+
+    function copyCaption(btn, text) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = "✅ Copied!";
+        setTimeout(() => btn.textContent = "📋 Copy", 2000);
+      });
+    }
+  </script>
+</body>
+</html>
