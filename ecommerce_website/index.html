@@ -1,0 +1,238 @@
+<!--
+  Project Title : E-Commerce Website
+  Experiment    : 7
+  Name          : [Your Name]
+  Date          : 2026-04-23
+  Description   : A fully functional single-page e-commerce website with product
+                  listing, shopping cart, quantity controls, localStorage persistence,
+                  and simulated checkout — built with HTML, CSS, and vanilla JS.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopNest — Modern Store</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- ===================== NAVBAR ===================== -->
+  <header class="navbar">
+    <div class="nav-brand">
+      <span class="brand-icon">◈</span>
+      <span class="brand-name">ShopNest</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#products">Products</a>
+      <a href="#cart-section">Cart</a>
+      <a href="#checkout-section">Checkout</a>
+    </nav>
+    <button class="cart-btn" id="cartToggleBtn" aria-label="Toggle cart">
+      🛒 Cart
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+  </header>
+
+  <!-- ===================== HERO ===================== -->
+  <section class="hero">
+    <div class="hero-content">
+      <p class="hero-tag">New Arrivals 2026</p>
+      <h1 class="hero-title">Discover.<br/>Shop.<br/>Love it.</h1>
+      <p class="hero-sub">Curated products. Transparent prices. Zero fuss.</p>
+      <a href="#products" class="hero-cta">Shop Now →</a>
+    </div>
+    <div class="hero-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+  </section>
+
+  <!-- ===================== SEARCH BAR ===================== -->
+  <section class="search-section" id="products">
+    <div class="container">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input
+          type="text"
+          id="searchInput"
+          class="search-input"
+          placeholder="Search products by name, category, or keyword..."
+          oninput="filterProducts()"
+        />
+        <button class="search-clear" onclick="clearSearch()" title="Clear search">✕</button>
+      </div>
+      <div class="filter-pills">
+        <button class="pill active" onclick="filterByCategory('all', this)">All</button>
+        <button class="pill" onclick="filterByCategory('electronics', this)">Electronics</button>
+        <button class="pill" onclick="filterByCategory('fashion', this)">Fashion</button>
+        <button class="pill" onclick="filterByCategory('home', this)">Home</button>
+        <button class="pill" onclick="filterByCategory('sports', this)">Sports</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRODUCT GRID ===================== -->
+  <section class="products-section">
+    <div class="container">
+      <h2 class="section-title">Our Products</h2>
+      <p class="section-sub" id="productCount">Showing all 9 products</p>
+      <div class="product-grid" id="productGrid">
+        <!-- Cards are rendered by script.js -->
+      </div>
+      <p class="no-results hidden" id="noResults">No products found. Try a different search.</p>
+    </div>
+  </section>
+
+  <!-- ===================== CART SIDEBAR ===================== -->
+  <div class="cart-overlay" id="cartOverlay" onclick="toggleCart()"></div>
+  <aside class="cart-sidebar" id="cartSidebar">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="close-cart" onclick="toggleCart()">✕</button>
+    </div>
+    <div class="cart-body" id="cartItems">
+      <!-- Cart items injected by JS -->
+    </div>
+    <div class="cart-footer" id="cartFooter">
+      <div class="cart-total-row">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">₹0</span>
+      </div>
+      <div class="cart-total-row">
+        <span>Shipping</span>
+        <span id="cartShipping">₹0</span>
+      </div>
+      <div class="cart-total-row total-final">
+        <span>Total</span>
+        <span id="cartTotal">₹0</span>
+      </div>
+      <button class="checkout-btn" onclick="scrollToCheckout()">Proceed to Checkout →</button>
+      <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+    </div>
+  </aside>
+
+  <!-- ===================== CART SECTION (inline) ===================== -->
+  <section class="cart-inline-section" id="cart-section">
+    <div class="container">
+      <h2 class="section-title">Shopping Cart</h2>
+      <div class="cart-inline-grid">
+        <div class="cart-inline-items" id="cartInlineItems">
+          <p class="empty-msg" id="emptyCartMsg">Your cart is empty. Add some products above!</p>
+        </div>
+        <div class="cart-summary-box" id="cartSummaryBox">
+          <h3>Order Summary</h3>
+          <div class="summary-row"><span>Subtotal</span><span id="summarySubtotal">₹0</span></div>
+          <div class="summary-row"><span>Shipping</span><span id="summaryShipping">₹0</span></div>
+          <div class="summary-row discount-row hidden" id="discountRow">
+            <span>Discount (SAVE10)</span><span id="summaryDiscount">-₹0</span>
+          </div>
+          <div class="summary-row summary-total"><span>Total</span><span id="summaryTotal">₹0</span></div>
+          <div class="coupon-row">
+            <input type="text" id="couponInput" placeholder="Coupon code" />
+            <button onclick="applyCoupon()">Apply</button>
+          </div>
+          <p class="coupon-msg" id="couponMsg"></p>
+          <button class="checkout-btn full-width" onclick="scrollToCheckout()">Checkout →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHECKOUT SECTION ===================== -->
+  <section class="checkout-section" id="checkout-section">
+    <div class="container">
+      <h2 class="section-title">Checkout</h2>
+      <div class="checkout-grid">
+
+        <!-- Form -->
+        <div class="checkout-form-card">
+          <h3>Shipping Details</h3>
+          <form id="checkoutForm" onsubmit="placeOrder(event)">
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label for="firstName">First Name *</label>
+                <input type="text" id="firstName" placeholder="Riya" required />
+              </div>
+              <div class="form-group">
+                <label for="lastName">Last Name *</label>
+                <input type="text" id="lastName" placeholder="Sharma" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" placeholder="riya@example.com" required />
+            </div>
+            <div class="form-group">
+              <label for="phone">Phone Number *</label>
+              <input type="tel" id="phone" placeholder="+91 98765 43210" required />
+            </div>
+            <div class="form-group">
+              <label for="address">Street Address *</label>
+              <input type="text" id="address" placeholder="12, MG Road" required />
+            </div>
+            <div class="form-row two-col">
+              <div class="form-group">
+                <label for="city">City *</label>
+                <input type="text" id="city" placeholder="Bangalore" required />
+              </div>
+              <div class="form-group">
+                <label for="pincode">Pincode *</label>
+                <input type="text" id="pincode" placeholder="560001" required />
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Payment Method</label>
+              <div class="payment-options">
+                <label class="pay-opt"><input type="radio" name="payment" value="upi" checked /> UPI</label>
+                <label class="pay-opt"><input type="radio" name="payment" value="card" /> Credit / Debit Card</label>
+                <label class="pay-opt"><input type="radio" name="payment" value="cod" /> Cash on Delivery</label>
+              </div>
+            </div>
+            <button type="submit" class="place-order-btn" id="placeOrderBtn">Place Order →</button>
+          </form>
+        </div>
+
+        <!-- Order Review -->
+        <div class="checkout-review-card">
+          <h3>Order Review</h3>
+          <div id="checkoutItems">
+            <p class="empty-msg">No items in cart yet.</p>
+          </div>
+          <div class="review-totals">
+            <div class="summary-row"><span>Subtotal</span><span id="reviewSubtotal">₹0</span></div>
+            <div class="summary-row"><span>Shipping</span><span id="reviewShipping">₹0</span></div>
+            <div class="summary-row summary-total"><span>Total</span><span id="reviewTotal">₹0</span></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== ORDER CONFIRMATION MODAL ===================== -->
+  <div class="modal-overlay hidden" id="confirmModal">
+    <div class="modal-box">
+      <div class="modal-icon">✅</div>
+      <h2>Order Placed!</h2>
+      <p id="confirmMsg">Thank you, <strong id="confirmName"></strong>! Your order has been received.</p>
+      <div class="modal-details" id="modalDetails"></div>
+      <p class="modal-note">A confirmation will be sent to <span id="confirmEmail"></span></p>
+      <button class="modal-close-btn" onclick="closeModal()">Continue Shopping</button>
+    </div>
+  </div>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">◈ ShopNest</div>
+      <p class="footer-note">Experiment 7 — Web Development Lab | Built with HTML, CSS & JavaScript</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
